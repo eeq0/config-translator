@@ -1,7 +1,10 @@
-start: value
+start: let_decl* value
+
+let_decl: "let" NAME "=" value ";"
 
 ?value: NUMBER -> number
       | struct
+      | "#(" NAME ")" -> const_ref
 
 struct: "struct" "{" (pair ("," pair)* ","?)? "}"
 pair: NAME "=" value

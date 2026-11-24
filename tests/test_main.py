@@ -32,6 +32,15 @@ class MainTest(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertIn("<config>7</config>", out)
 
+    def test_constants(self):
+        """Константы вычисляются, в XML попадают значения."""
+        path = helpers.write_temp(
+            self, "let N = 3;\nstruct { A = #(N), B = struct { C = #(N) } }")
+        code, out, _ = run_main(["--input", path])
+        self.assertEqual(code, 0)
+        self.assertEqual(helpers.xml_lines(out), [
+            "<config>", "<A>3</A>", "<B>", "<C>3</C>", "</B>", "</config>"])
+
     def test_syntax_error(self):
         """Синтаксическая ошибка: код 1, сообщение в stderr."""
         path = helpers.write_temp(self, "struct { A = }")

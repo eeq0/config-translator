@@ -6,6 +6,9 @@
 
     число                       -> int
     struct { ИМЯ = значение }   -> Struct (список пар Pair)
+    #(ИМЯ)                      -> ConstRef
+    let ИМЯ = значение;         -> Let
+    весь текст                  -> Program (объявления Let и значение)
 """
 from collections import namedtuple
 
@@ -23,7 +26,9 @@ READABLE = {
 
 Pair = namedtuple("Pair", "name value")
 Struct = namedtuple("Struct", "pairs")
-Program = namedtuple("Program", "value")
+ConstRef = namedtuple("ConstRef", "name")
+Let = namedtuple("Let", "name value")
+Program = namedtuple("Program", "lets value")
 
 
 class ToAst(Transformer):
@@ -41,9 +46,17 @@ class ToAst(Transformer):
         """Словарь struct { ... }."""
         return Struct(list(items))
 
+    def const_ref(self, items):
+        """Вычисление константы #(ИМЯ)."""
+        return ConstRef(items[0])
+
+    def let_decl(self, items):
+        """Объявление константы let ИМЯ = значение;."""
+        return Let(items[0], items[1])
+
     def start(self, items):
-        """Весь текст конфигурации."""
-        return Program(items[0])
+        """Весь текст: объявления констант, затем значение."""
+        return Program(list(items[:-1]), items[-1])
 
 
 def _describe(name):
