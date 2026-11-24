@@ -1,0 +1,13 @@
+start: value
+
+?value: NUMBER -> number
+      | struct
+
+struct: "struct" "{" (pair ("," pair)* ","?)? "}"
+pair: NAME "=" value
+
+NAME: /[A-Z]+/
+NUMBER: /[+-]?\d+/
+
+%import common.WS
+%ignore WS
