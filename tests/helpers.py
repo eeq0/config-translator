@@ -1,10 +1,10 @@
-"""Общие помощники для тестов: путь к src и временные файлы."""
+"""Общие помощники для тестов: временные файлы и разбор результата."""
 import os
-import sys
 import tempfile
 
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
-sys.path.insert(0, os.path.join(ROOT, "src"))
+from evaluator import evaluate
+from syntax import parse
+from tests import ROOT
 
 
 def write_temp(test, text, suffix=".conf"):
@@ -18,9 +18,12 @@ def write_temp(test, text, suffix=".conf"):
 
 def value_of(text):
     """Разобрать и вычислить текст конфигурации."""
-    from evaluator import evaluate
-    from syntax import parse
     return evaluate(parse(text))
+
+
+def examples_path(*parts):
+    """Путь к файлу или папке внутри examples."""
+    return os.path.join(ROOT, "examples", *parts)
 
 
 def xml_lines(xml_text):

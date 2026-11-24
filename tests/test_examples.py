@@ -1,19 +1,16 @@
 """Тесты примеров из папки examples."""
 import glob
-import os
 import unittest
 from xml.etree import ElementTree
 
-import helpers
+from tests import helpers
 from errors import TranslatorError
 from main import read_source, translate
-
-EXAMPLES = os.path.join(helpers.ROOT, "examples")
 
 
 def translate_example(name):
     """Перевести пример в XML и вернуть корневой элемент."""
-    text = read_source(os.path.join(EXAMPLES, name))
+    text = read_source(helpers.examples_path(name))
     return ElementTree.fromstring(translate(text))
 
 
@@ -36,7 +33,7 @@ class ExamplesTest(unittest.TestCase):
 
     def test_error_examples(self):
         """Каждый пример из examples/errors даёт ошибку."""
-        paths = sorted(glob.glob(os.path.join(EXAMPLES, "errors", "*.conf")))
+        paths = sorted(glob.glob(helpers.examples_path("errors", "*.conf")))
         self.assertTrue(paths)
         for path in paths:
             with self.assertRaises(TranslatorError, msg=path):

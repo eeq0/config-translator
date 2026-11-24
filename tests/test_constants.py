@@ -1,7 +1,7 @@
 """Тесты констант: let ИМЯ = значение; и #(ИМЯ)."""
 import unittest
 
-import helpers
+from tests import helpers
 from errors import TranslatorError
 
 

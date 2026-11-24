@@ -3,7 +3,7 @@ import contextlib
 import io
 import unittest
 
-import helpers
+from tests import helpers
 from main import main
 
 

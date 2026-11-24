@@ -35,7 +35,7 @@ class ToAst(Transformer):
     """Превращает дерево разбора Lark в простое дерево (AST)."""
 
     def number(self, items):
-        """Число: [+-]?\\d+."""
+        """Число: необязательный знак + или - и цифры."""
         return int(items[0])
 
     def pair(self, items):

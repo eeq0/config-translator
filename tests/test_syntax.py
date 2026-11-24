@@ -1,12 +1,12 @@
 """Тесты синтаксического разбора: числа, словари, ошибки."""
 import unittest
 
-import helpers
+from tests import helpers
 from errors import TranslatorError
 
 
 class NumberTest(unittest.TestCase):
-    """Числа: [+-]?\\d+."""
+    """Числа: необязательный знак + или - и цифры."""
 
     def test_numbers(self):
         """Без знака, с плюсом, с минусом, ноль."""

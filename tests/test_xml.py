@@ -2,7 +2,7 @@
 import unittest
 from xml.etree import ElementTree
 
-import helpers
+from tests import helpers
 from xml_writer import HEADER, to_xml
 
 
