@@ -77,7 +77,8 @@ class SyntaxErrorTest(unittest.TestCase):
 
     def test_not_integer(self):
         """Дробных чисел нет."""
-        self.check("struct { A = 1.5 }", "недопустимый символ «.»")
+        self.check("struct { A = 1.5 }", "недопустимый символ «.»",
+                   "ожидалось: «,», «}»")
 
     def test_empty_text(self):
         """Пустой файл: нужно значение."""

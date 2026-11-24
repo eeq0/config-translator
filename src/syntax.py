@@ -66,18 +66,22 @@ def _describe(name):
     return f"«{PARSER.get_terminal(name).pattern.value}»"
 
 
+def _expected(err):
+    """Что парсер мог принять в месте ошибки."""
+    if getattr(err, "interactive_parser", None) is not None:
+        return err.interactive_parser.accepts()
+    return err.expected
+
+
 def _syntax_message(err):
     """Текст синтаксической ошибки: где, что встретилось, что ожидалось."""
     if isinstance(err, UnexpectedCharacters):
         found = f"недопустимый символ «{err.char}»"
-        expected = err.allowed
     elif err.token.type == END:
         found = "неожиданный конец файла"
-        expected = err.accepts or err.expected
     else:
         found = f"неожиданный элемент «{err.token}»"
-        expected = err.accepts or err.expected
-    names = ", ".join(sorted(_describe(name) for name in expected))
+    names = ", ".join(sorted(_describe(name) for name in _expected(err)))
     return (f"строка {err.line}, столбец {err.column}: {found}; "
             f"ожидалось: {names}")
 

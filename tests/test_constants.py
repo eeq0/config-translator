@@ -82,7 +82,8 @@ class ConstantErrorTest(unittest.TestCase):
 
     def test_lowercase_constant(self):
         """Имя константы — только большие латинские буквы."""
-        self.check("let a = 1; #(a)", "недопустимый символ «a»")
+        self.check("let a = 1; #(a)", "недопустимый символ «a»",
+                   "ожидалось: имя (большие латинские буквы)")
 
     def test_unclosed_reference(self):
         """Не закрыта скобка в #(ИМЯ)."""
